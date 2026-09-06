@@ -1,0 +1,4 @@
+interface:
+  display_name: "Сжатое обучение"
+  short_description: "Строит рабочую модель сложной темы"
+  default_prompt: "Используй $compressed-learning, чтобы кратко и связно объяснить этот материал."
