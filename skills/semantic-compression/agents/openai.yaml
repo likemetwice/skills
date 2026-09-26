@@ -1,0 +1,7 @@
+interface:
+  display_name: "Semantic Compression"
+  short_description: "Смысловая компрессия по явному запросу"
+  default_prompt: "Используй $semantic-compression, чтобы объяснить тему через минимальную достаточную ментальную модель."
+
+policy:
+  allow_implicit_invocation: false
