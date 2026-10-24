@@ -14,6 +14,7 @@
 
 - `semantic-compression` находит минимальную несущую конструкцию ответа.
 - `compressed-learning` строит путь обучения: от проблемы и интуиции к механизму, формализму и границам применимости.
+- `core-thinking` помогает выделить центральный механизм темы и проверить понимание на разных примерах.
 
 > Сжимать следует не до заданного размера, а до момента, когда дальнейшее удаление уже ломает механизм или стирает важное различие.
 
@@ -40,6 +41,12 @@ npx skills add likemetwice/skills --skill semantic-compression -g
 
 ```bash
 npx skills add likemetwice/skills --skill compressed-learning -g
+```
+
+Установить `core-thinking`:
+
+```bash
+npx skills add likemetwice/skills --skill core-thinking -g
 ```
 
 Только для Codex:
@@ -90,9 +97,11 @@ npx skills update semantic-compression -p
 skills/
 ├── semantic-compression/
 │   └── SKILL.md
-└── compressed-learning/
-    ├── SKILL.md
-    └── agents/openai.yaml
+├── compressed-learning/
+│   ├── SKILL.md
+│   └── agents/openai.yaml
+└── core-thinking/
+    └── SKILL.md
 ```
 
 Скилл использует стандартный формат Agent Skills и обнаруживается `npx skills` в каталоге `skills/`.
