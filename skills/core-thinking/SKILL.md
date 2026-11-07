@@ -4,7 +4,10 @@ description: >
   A universal learning and reasoning skill that extracts the
   conceptual core of any unfamiliar topic and builds an accurate
   mental model through causal explanations, concrete examples,
-  multiple interpretations, and invariant extraction.
+  multiple interpretations, and invariant extraction. On request
+  ("show me", "animate", "bring it to life", "make a page") it also
+  builds a self-contained HTML explainer page with step-by-step
+  mechanism animations for each step of the model.
 ---
 
 # Core Thinking
@@ -201,6 +204,35 @@ Correct only meaningful misunderstandings.
 
 Then, if appropriate, introduce a new example
 to test whether understanding transfers.
+
+## Explainer Page (on request)
+
+When the user asks to "show", "animate", "bring to life" or
+"make a page", or when the mechanism involves entities exchanging
+messages or changing state, build one self-contained HTML file
+after the textual explanation. Follow `references/explainer-page.md`.
+
+Mapping of steps to the page:
+
+- Step 1 Problem, Step 2 Core Idea → text blocks and the `core` field.
+- Step 3 Concrete Example + Step 6 Causal Mechanism → one player:
+  nodes are the entities, packets are what moves, `states` are
+  what changes. One claim per step.
+- Step 4 Multiple Interpretations + Step 5 Invariant → one player
+  with the same steps and relabeled nodes, or a table
+  "context | input | operation | output | what stays the same".
+- Step 7 Boundary Testing → a short player: change one parameter,
+  show what breaks.
+- Step 9 Semantic Compression → the `core` field and the hero block.
+- Step 10 Active Understanding → the `recall` block: the same map
+  with hidden node labels plus questions with hidden answers.
+
+Before writing the file, print the scene table in chat
+(step | active | moves | changes | claim | source).
+Copy `assets/explainer-template.html`, fill only the `EXPLAINER`
+object, keep the engine untouched. Mark unsourced steps with
+`assumption: true`. Animate only what shows causality;
+static topics stay text.
 
 ## Adaptive Depth
 

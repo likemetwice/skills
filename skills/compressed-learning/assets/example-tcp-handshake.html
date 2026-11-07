@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EXPLAINER</title>
+<style>
+/* ===== Палитра и база (совместима с index-v19 курса) ===== */
+:root{
+  --bg-deep:#0f0c29;--bg-mid:#302b63;--bg-light:#24243e;
+  --glass-border:rgba(255,255,255,.15);--glass-border-hover:rgba(255,255,255,.3);
+  --cyan:#00d4ff;--green:#00ff87;--orange:#ff9500;--purple:#8a2be2;--pink:#ff0080;--red:#ff6b6b;
+  --text:#f0f0ff;--text-2:rgba(240,240,255,.85);--muted:rgba(240,240,255,.6);
+  --radius:12px;--nav-w:260px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.6;color:var(--text);
+  background:linear-gradient(135deg,var(--bg-deep) 0%,var(--bg-mid) 50%,var(--bg-light) 100%);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan)}
+h1{font-size:2.1rem;line-height:1.2;letter-spacing:-.02em}
+h2{font-size:1.55rem;line-height:1.25}
+h3{font-size:1.1rem}
+p,li{overflow-wrap:anywhere}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:rgba(255,255,255,.08);padding:.1em .35em;border-radius:5px}
+pre{background:rgba(0,0,0,.35);border:1px solid var(--glass-border);border-radius:10px;padding:.8rem 1rem;overflow:auto;font-size:.85rem;line-height:1.5}
+pre code{background:none;padding:0}
+ul,ol{padding-left:1.3rem}
+table{border-collapse:collapse;width:100%;font-size:.9rem;margin:.6rem 0}
+th,td{border:1px solid var(--glass-border);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{background:rgba(255,255,255,.06);font-weight:600}
+.layout{display:grid;grid-template-columns:var(--nav-w) minmax(0,1fr);min-height:100vh}
+/* ===== Навигация ===== */
+.nav{position:sticky;top:0;height:100vh;overflow-y:auto;padding:1.2rem 1rem;border-right:1px solid var(--glass-border);background:rgba(15,12,41,.85);backdrop-filter:blur(20px)}
+.nav .brand{font-weight:700;font-size:.95rem;margin-bottom:.9rem;color:var(--text)}
+.nav a{display:block;padding:.4rem .6rem;border-radius:8px;color:var(--text-2);text-decoration:none;font-size:.86rem;line-height:1.3}
+.nav a .k{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);opacity:.85}
+.nav a.active,.nav a:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.nav .foot{margin-top:1rem;font-size:.72rem;color:var(--muted);line-height:1.4}
+/* ===== Контент ===== */
+.main{padding:2rem clamp(1rem,4vw,3.5rem) 4rem;max-width:1100px}
+.hero{margin-bottom:2rem;padding:1.4rem 1.6rem;border:1px solid var(--glass-border);border-radius:16px;background:rgba(255,255,255,.05)}
+.hero .sub{color:var(--muted);margin:.4rem 0 .9rem}
+.core{border-left:3px solid var(--cyan);background:rgba(0,212,255,.08);padding:.8rem 1rem;border-radius:0 10px 10px 0;font-size:1.05rem}
+.core b{color:var(--cyan);display:block;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.25rem}
+.src{margin-top:.8rem;font-size:.78rem;color:var(--muted)}
+.section{margin:0 0 2.2rem;padding:1.3rem 1.5rem;border:1px solid var(--glass-border);border-radius:16px;background:rgba(255,255,255,.035)}
+.kicker{color:var(--cyan);font-size:.74rem;font-weight:650;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
+.section h2{margin-bottom:.7rem}
+.section .body>*+*{margin-top:.7rem}
+.note{border-radius:9px;padding:.55rem .75rem;font-size:.86rem;line-height:1.45;color:var(--text-2);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+.note b{color:var(--text)}
+.note.warn{border-color:rgba(255,149,0,.4);background:rgba(255,149,0,.08)}
+.note.good{border-color:rgba(0,255,135,.35);background:rgba(0,255,135,.06)}
+.assume{display:inline-block;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:#1a1a2e;background:#d9d6ff;border-radius:50px;padding:.1rem .5rem;margin-left:.4rem;vertical-align:middle;opacity:.85}
+/* ===== Плеер ===== */
+.pl{margin:1.1rem 0 .4rem;border:1px solid var(--glass-border);border-radius:12px;background:rgba(15,12,41,.4);padding:1rem}
+.pl-top{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.9rem}
+.pl-ex{font-size:.85rem;color:var(--muted);flex:1 1 300px}
+.pl-ex b{color:var(--text);font-weight:600}
+.pl-phase{margin-left:auto;visibility:hidden;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--orange);border:1px solid rgba(255,149,0,.45);background:rgba(255,149,0,.1);border-radius:50px;padding:.22rem .7rem}
+.pl-phase.on{visibility:visible}
+.map{position:relative;display:grid;gap:.7rem 2.2rem;padding:.3rem .2rem .2rem}
+.map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.map .ln{stroke:rgba(240,240,255,.22);stroke-width:1.3;fill:none}
+.chip{position:relative;z-index:1;display:flex;align-items:center;gap:.55rem;border:1.3px solid var(--glass-border-hover);border-radius:10px;background:#1b1842;padding:.45rem .7rem;min-height:3.3rem;transition:box-shadow .35s,border-color .35s,opacity .35s;opacity:.6}
+.chip .ico{font-size:1.25rem}
+.chip b{display:block;font-size:.86rem;color:var(--text);line-height:1.15}
+.chip small{display:block;font-size:.66rem;color:var(--muted);margin-top:.1rem;min-height:.9rem}
+.chip small.st{color:#ffd58a}
+.chip.c-cyan{border-color:rgba(0,212,255,.55);background:#16233f}
+.chip.c-purple{border-color:rgba(138,43,226,.75);background:#241a45}
+.chip.c-orange{border-color:rgba(255,149,0,.5);background:#2a2238}
+.chip.c-green{border-color:rgba(0,255,135,.5);background:#15302a}
+.chip.c-pink{border-color:rgba(255,0,128,.5);background:#2e1630}
+.chip.active{opacity:1;border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.15),0 0 22px rgba(0,212,255,.35)}
+.chip.c-purple.active{box-shadow:0 0 0 2px rgba(255,255,255,.15),0 0 22px rgba(138,43,226,.6)}
+.chip.c-orange.active{box-shadow:0 0 0 2px rgba(255,255,255,.15),0 0 22px rgba(255,149,0,.5)}
+.pkt{position:absolute;z-index:3;left:0;top:0;pointer-events:none;opacity:0;will-change:transform}
+.pkt>span{display:inline-block;transform:translate(-50%,-50%);white-space:nowrap;padding:.25rem .6rem;border-radius:50px;font-size:.72rem;font-weight:600;color:#0b0a1e;background:var(--cyan);box-shadow:0 4px 14px rgba(0,0,0,.45)}
+.pkt.ok>span{background:var(--green)}
+.pkt.call>span{background:#b79bff}
+.pkt.err>span{background:var(--red)}
+.pkt.data>span{background:#ffd58a}
+.focus{margin-top:.9rem;border:1px solid var(--glass-border);border-radius:10px;background:rgba(0,0,0,.25);padding:.8rem .9rem;min-height:3rem}
+.focus-h{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.focus-h b{color:var(--text)}
+.focus .rv{animation:rvIn .45s both;animation-delay:var(--d,0s)}
+@keyframes rvIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.narr{margin-top:.9rem;padding:.9rem 1rem;border-radius:10px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3)}
+.narr .n{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);font-weight:600;margin-bottom:.25rem}
+.narr h4{margin:0 0 .3rem;font-size:1.02rem}
+.narr p{margin:0;font-size:.92rem;line-height:1.5;color:var(--text-2)}
+.narr .why{margin-top:.4rem;font-size:.78rem;color:var(--muted)}
+.ctrl{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-top:.8rem}
+.btn{appearance:none;border:1px solid var(--glass-border-hover);background:rgba(255,255,255,.08);color:var(--text);padding:.45rem 1rem;border-radius:9px;font-size:.86rem;cursor:pointer;transition:background .2s}
+.btn:hover{background:rgba(255,255,255,.16)}
+.btn.primary{background:linear-gradient(135deg,#667eea,#764ba2);border-color:transparent}
+.btn[disabled]{opacity:.4;cursor:default}
+.btn[aria-pressed="true"]{background:rgba(0,212,255,.2);outline:1px solid rgba(0,212,255,.5)}
+.scrub{flex:1 1 160px;accent-color:var(--cyan);min-width:120px}
+.dots{display:flex;gap:.3rem;flex-wrap:wrap}
+.dots button{width:.7rem;height:.7rem;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:transparent;padding:0;cursor:pointer}
+.dots button.done{background:rgba(255,255,255,.35)}
+.dots button.cur{background:var(--cyan);border-color:var(--cyan)}
+.hint{width:100%;font-size:.72rem;color:var(--muted)}
+/* ===== Recall ===== */
+.recall .chip b.q{color:var(--orange);letter-spacing:.1em}
+.recall .chip{cursor:pointer;opacity:.9}
+.recall .chip.open b.q{color:var(--text);letter-spacing:0}
+.qa{margin-top:1rem}
+.qa details{border:1px solid var(--glass-border);border-radius:9px;padding:.5rem .8rem;margin:.4rem 0;background:rgba(255,255,255,.04)}
+.qa summary{cursor:pointer;font-weight:600;font-size:.92rem}
+.qa details p{margin-top:.5rem;font-size:.9rem;color:var(--text-2)}
+@media (max-width:860px){.layout{grid-template-columns:1fr}.nav{position:static;height:auto;border-right:0;border-bottom:1px solid var(--glass-border)}.map{gap:.6rem 1.2rem}}
+@media (prefers-reduced-motion:reduce){.focus .rv{animation:none}}
+@media print{.nav,.ctrl{display:none}.section{break-inside:avoid}body{background:#fff;color:#111}}
+</style>
+</head>
+<body>
+<!--
+  ШАБЛОН EXPLAINER-СТРАНИЦЫ. Агент заполняет ТОЛЬКО объект EXPLAINER ниже.
+  Движок плеера (после объекта) менять не нужно.
+
+  Схема данных:
+  EXPLAINER = {
+    title, subtitle, core,            // core = несущая мысль, 1–3 предложения
+    source,                           // откуда факты: ссылка/название/«из ментальной модели выше»
+    nodes: [{id, label, sub, icon, col, row, color}],   // 3–7 сущностей модели; color: cyan|purple|orange|green|pink
+    links: [[fromId, toId], ...],     // связи, которые рисуются линиями
+    sections: [
+      { id, kicker, title, html },                               // текстовый блок
+      { id, kicker, title, html, player: { example, phases?, steps: [ STEP ] } },   // блок с анимацией
+      { id, kicker, title, html, recall: { questions: [{q, a}] } }                 // проверка: карта с пустыми узлами + вопросы
+    ]
+  }
+  STEP = {
+    title, text,                      // одно утверждение на шаг
+    active: [nodeId],                 // кто «горит» на карте
+    packets: [{from, to, label, kind}],   // что движется; kind: ctx|ok|call|err|data
+    states: {nodeId: 'короткое состояние'},   // что изменилось у узла после шага
+    focus: '<html крупного плана>',   // необязательно; классы .rv для поэтапного появления
+    phase: 'Виток 2',                 // необязательно; подпись фазы/цикла
+    because: 'источник утверждения',  // необязательно, но желательно
+    assumption: false                 // true = шаг не подтверждён источником, будет помечен
+  }
+-->
+<script>
+const EXPLAINER = {
+  title: 'TCP: как устанавливается соединение',
+  subtitle: 'Трёхстороннее рукопожатие на одном сквозном примере',
+  core: 'Соединение — это согласованная пара начальных номеров последовательности. Пока обе стороны не подтвердили номер друг друга, данных нет.',
+  source: 'RFC 9293, раздел 3.5 (Establishing a Connection)',
+  nodes: [
+    { id: 'client', label: 'Клиент', sub: 'инициатор', icon: '💻', col: 1, row: 1, color: 'cyan' },
+    { id: 'net', label: 'Сеть', sub: 'доставляет сегменты', icon: '🌐', col: 2, row: 1, color: 'orange' },
+    { id: 'server', label: 'Сервер', sub: 'слушает порт', icon: '🖥️', col: 3, row: 1, color: 'purple' }
+  ],
+  links: [['client', 'net'], ['net', 'server']],
+  sections: [
+    { id: 'problem', kicker: 'Проблема', title: 'Зачем рукопожатие', html: '<p>IP доставляет пакеты без гарантий: они теряются, дублируются и приходят не по порядку. Чтобы собрать поток байт, обе стороны должны договориться, с какого номера считать.</p>' },
+    { id: 'mechanism', kicker: 'Механизм', title: 'Три сегмента', html: '<p>Каждая сторона объявляет свой начальный номер (ISN) и подтверждает чужой. Три сегмента — минимум, при котором оба подтверждения доставлены.</p>',
+      player: { example: 'Клиент открывает соединение к серверу на порт 443', steps: [
+        { title: 'Сервер ждёт', text: 'Сервер выполнил listen и находится в состоянии LISTEN. Клиент в CLOSED.', active: ['server'], states: { server: 'LISTEN', client: 'CLOSED' }, because: 'RFC 9293 §3.3.2' },
+        { title: 'SYN', text: 'Клиент выбирает ISN = 100 и шлёт сегмент с флагом SYN. Переходит в SYN-SENT.', active: ['client'], packets: [{ from: 'client', to: 'net', label: 'SYN seq=100', kind: 'call' }, { from: 'net', to: 'server', label: 'SYN seq=100', kind: 'call' }], states: { client: 'SYN-SENT' },
+          focus: '<div class="note rv"><b>Сегмент 1</b><br><code>SYN, seq=100</code></div><div class="note rv">ISN выбирается случайно, чтобы старые сегменты прошлых соединений не были приняты за новые.</div>', because: 'RFC 9293 §3.4.1' },
+        { title: 'SYN+ACK', text: 'Сервер запоминает 100, выбирает свой ISN = 300 и отвечает SYN+ACK с ack=101. Переходит в SYN-RECEIVED.', active: ['server'], packets: [{ from: 'server', to: 'net', label: 'SYN+ACK seq=300 ack=101', kind: 'ok' }, { from: 'net', to: 'client', label: 'SYN+ACK seq=300 ack=101', kind: 'ok' }], states: { server: 'SYN-RECEIVED' },
+          focus: '<div class="note rv"><b>Сегмент 2</b><br><code>SYN+ACK, seq=300, ack=101</code></div><div class="note rv good">ack=101 означает «получил всё до 100 включительно, жду 101». SYN занимает один номер.</div>', because: 'RFC 9293 §3.5' },
+        { title: 'ACK', text: 'Клиент подтверждает 300 ответом ack=301 и переходит в ESTABLISHED. Сервер при получении тоже.', active: ['client', 'server'], packets: [{ from: 'client', to: 'net', label: 'ACK ack=301', kind: 'ok' }, { from: 'net', to: 'server', label: 'ACK ack=301', kind: 'ok' }], states: { client: 'ESTABLISHED', server: 'ESTABLISHED' },
+          focus: '<div class="note rv"><b>Сегмент 3</b><br><code>ACK, seq=101, ack=301</code></div><div class="note rv good">Теперь оба знают оба ISN. Данные могут идти в этом же сегменте.</div>', because: 'RFC 9293 §3.5' },
+        { title: 'Почему не два', text: 'Двух сегментов мало: сервер не знал бы, что его ISN дошёл. Четырёх много: SYN и ACK сервера объединяются в один сегмент.', active: ['client', 'server'], states: {}, because: 'RFC 9293 §3.5, обсуждение', assumption: false }
+      ] } },
+    { id: 'recall', kicker: 'Проверка', title: 'Восстанови модель', html: '<p>Назови узлы и ответь на вопросы до того, как откроешь ответы.</p>',
+      recall: { questions: [
+        { q: 'Что означает ack=101 в ответе сервера?', a: 'Сервер получил все байты до номера 100 включительно и ожидает 101. SYN занимает один порядковый номер.' },
+        { q: 'Что сломается, если убрать третий сегмент?', a: 'Сервер не узнает, что его ISN доставлен, и не сможет перейти в ESTABLISHED. Соединение останется полуоткрытым.' }
+      ] } }
+  ]
+};
+</script>
+
+<div class="layout">
+  <nav class="nav" id="nav"><div class="brand" id="brand"></div><div id="navlinks"></div><div class="foot">Стрелки ← → листают шаги активного плеера. Reduced-motion показывает статичные состояния.</div></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<script>
+(function () {
+  const E = EXPLAINER;
+  const reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const nodeById = Object.fromEntries(E.nodes.map(n => [n.id, n]));
+  document.title = E.title;
+
+  // ---------- каркас страницы ----------
+  const main = document.getElementById('main');
+  document.getElementById('brand').textContent = E.title;
+  main.insertAdjacentHTML('beforeend', `<header class="hero"><h1>${esc(E.title)}</h1>${E.subtitle ? `<p class="sub">${esc(E.subtitle)}</p>` : ''}
+    <div class="core"><b>Несущая мысль</b>${esc(E.core)}</div>${E.source ? `<div class="src">Источник: ${esc(E.source)}</div>` : ''}</header>`);
+  const navlinks = document.getElementById('navlinks');
+  E.sections.forEach(s => {
+    navlinks.insertAdjacentHTML('beforeend', `<a href="#${s.id}" data-id="${s.id}"><span class="k">${esc(s.kicker || '')}</span>${esc(s.title)}</a>`);
+    const sec = document.createElement('section'); sec.className = 'section' + (s.recall ? ' recall' : ''); sec.id = s.id;
+    sec.innerHTML = `<div class="kicker">${esc(s.kicker || '')}</div><h2>${esc(s.title)}</h2><div class="body">${s.html || ''}</div>`;
+    main.appendChild(sec);
+    if (s.player) sec.appendChild(buildPlayer(s.player, s.id));
+    if (s.recall) sec.appendChild(buildRecall(s.recall, s.id));
+  });
+
+  // ---------- карта узлов ----------
+  function mapHTML(hideLabels) {
+    const cols = Math.max(...E.nodes.map(n => n.col || 1)), rows = Math.max(...E.nodes.map(n => n.row || 1));
+    const chips = E.nodes.map(n => `<div class="chip c-${n.color || 'cyan'}" data-node="${n.id}" style="grid-column:${n.col || 1};grid-row:${n.row || 1}">
+      <span class="ico">${n.icon || '•'}</span><div><b class="${hideLabels ? 'q' : ''}" data-label="${esc(n.label)}">${hideLabels ? '???' : esc(n.label)}</b><small data-sub="${esc(n.sub || '')}">${hideLabels ? '' : esc(n.sub || '')}</small></div></div>`).join('');
+    return `<div class="map" style="grid-template-columns:repeat(${cols},minmax(0,1fr));grid-template-rows:repeat(${rows},auto)"><svg aria-hidden="true"></svg>${chips}<div class="pkt"><span></span></div></div>`;
+  }
+  function wireMap(map) {
+    const chips = {}; map.querySelectorAll('.chip').forEach(c => { chips[c.dataset.node] = c; });
+    const svg = map.querySelector('svg');
+    const rect = id => { const s = map.getBoundingClientRect(), r = chips[id].getBoundingClientRect(); return { x: r.left - s.left, y: r.top - s.top, w: r.width, h: r.height }; };
+    const anchor = (from, to) => { const a = rect(from), b = rect(to); const ax = a.x + a.w / 2, ay = a.y + a.h / 2, bx = b.x + b.w / 2, by = b.y + b.h / 2;
+      const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1; const rx = a.w / 2, ry = a.h / 2; const t = 1 / Math.max(Math.abs(dx) / rx, Math.abs(dy) / ry);
+      return { x: ax + dx * t * 1.05, y: ay + dy * t * 1.05 }; };
+    const draw = () => { svg.innerHTML = ''; (E.links || []).forEach(([f, t]) => { if (!chips[f] || !chips[t]) return; const p = anchor(f, t), q = anchor(t, f);
+      const l = document.createElementNS('http://www.w3.org/2000/svg', 'line'); l.setAttribute('x1', p.x); l.setAttribute('y1', p.y); l.setAttribute('x2', q.x); l.setAttribute('y2', q.y); l.setAttribute('class', 'ln'); svg.appendChild(l); }); };
+    if (window.ResizeObserver) new ResizeObserver(draw).observe(map); else addEventListener('resize', draw);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    draw();
+    return { chips, anchor, draw };
+  }
+
+  // ---------- плеер: детерминированный seek(step, progress) ----------
+  let activePlayer = null;
+  function buildPlayer(P, sid) {
+    const steps = P.steps || [];
+    const root = document.createElement('div'); root.className = 'pl'; root.tabIndex = 0;
+    root.innerHTML = `<div class="pl-top"><div class="pl-ex">${P.example ? esc(P.example) : ''}</div><div class="pl-phase"></div></div>${mapHTML(false)}
+      <div class="focus"><div class="focus-h">Крупный план: <b></b></div><div class="focus-b"></div></div>
+      <div class="narr" aria-live="polite"><div class="n"></div><h4></h4><p></p><div class="why"></div></div>
+      <div class="ctrl"><button class="btn b-prev" type="button">← Назад</button><button class="btn primary b-next" type="button">Далее →</button>
+      <button class="btn b-play" type="button" aria-pressed="false">▶ Авто</button><button class="btn b-reset" type="button">↺</button>
+      <input class="scrub" type="range" min="0" max="${Math.max(0, steps.length - 1) * 1000}" value="0" aria-label="Прокрутка шагов"><div class="dots"></div>
+      <div class="hint">Одно утверждение на шаг. Серая метка «допущение» = шаг не подтверждён источником.</div></div>`;
+    const map = root.querySelector('.map'), { chips, anchor } = wireMap(map), pkt = map.querySelector('.pkt');
+    const q = s => root.querySelector(s);
+    const dots = q('.dots'); steps.forEach((s, k) => { const b = document.createElement('button'); b.type = 'button'; b.title = s.title; b.setAttribute('aria-label', 'Шаг ' + (k + 1) + ': ' + s.title); b.addEventListener('click', () => { stop(); seek(k, 1); }); dots.appendChild(b); });
+    let cur = -1, playing = false, raf = 0;
+    const ease = t => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+    function renderStep(i) {
+      const s = steps[i];
+      Object.keys(chips).forEach(id => chips[id].classList.toggle('active', (s.active || []).includes(id)));
+      // состояния узлов накапливаются по шагам 0..i
+      const st = {}; for (let k = 0; k <= i; k++) Object.assign(st, steps[k].states || {});
+      Object.keys(chips).forEach(id => { const sm = chips[id].querySelector('small'); if (st[id]) { sm.textContent = st[id]; sm.classList.add('st'); } else { sm.textContent = sm.dataset.sub; sm.classList.remove('st'); } });
+      let phase = ''; for (let k = 0; k <= i; k++) if (steps[k].phase) phase = steps[k].phase;
+      const ph = q('.pl-phase'); ph.textContent = phase; ph.classList.toggle('on', !!phase);
+      const who = (s.active || []).map(id => nodeById[id] ? nodeById[id].label : id).join(', ');
+      q('.focus-h b').textContent = who || '—';
+      const fb = q('.focus-b'); fb.innerHTML = s.focus || '<div class="note">' + esc(s.text) + '</div>';
+      fb.querySelectorAll('.rv').forEach((e, k) => e.style.setProperty('--d', (k * .14) + 's'));
+      q('.narr .n').textContent = 'Шаг ' + (i + 1) + ' из ' + steps.length;
+      q('.narr h4').innerHTML = esc(s.title) + (s.assumption ? '<span class="assume">допущение</span>' : '');
+      q('.narr p').textContent = s.text;
+      q('.narr .why').textContent = s.because ? 'Источник: ' + s.because : '';
+      q('.b-prev').disabled = i <= 0; q('.b-next').disabled = i >= steps.length - 1;
+      dots.querySelectorAll('button').forEach((d, k) => { d.classList.toggle('cur', k === i); d.classList.toggle('done', k < i); });
+    }
+    // seek — чистая функция (i, p): одинаковый вход всегда даёт одинаковую картинку
+    function seek(i, p) {
+      i = Math.max(0, Math.min(steps.length - 1, i)); p = Math.max(0, Math.min(1, p));
+      if (i !== cur) { cur = i; renderStep(i); }
+      q('.scrub').value = i * 1000 + Math.round(p * 999);
+      const ps = steps[i].packets || [];
+      if (!ps.length || reduce) { pkt.style.opacity = '0'; return; }
+      const n = ps.length, k = Math.min(n - 1, Math.floor(p * n)), local = p * n - k, pk = ps[k];
+      if (!chips[pk.from] || !chips[pk.to]) { pkt.style.opacity = '0'; return; }
+      const a = anchor(pk.from, pk.to), b = anchor(pk.to, pk.from), t = ease(local);
+      pkt.className = 'pkt ' + (pk.kind || 'ctx'); pkt.firstElementChild.textContent = pk.label || '';
+      pkt.style.transform = `translate(${a.x + (b.x - a.x) * t}px, ${a.y + (b.y - a.y) * t}px)`;
+      pkt.style.opacity = String(p >= 1 ? 0 : Math.min(1, local / .12, (1 - local) / .12));
+      if (local > .85) chips[pk.to].classList.add('active');
+    }
+    function stepDuration(i) { const s = steps[i]; return 900 * ((s.packets || []).length || 0) + 3200 + Math.round((s.text || '').length * 22); }
+    function play() {
+      if (cur >= steps.length - 1) seek(0, 0);
+      playing = true; q('.b-play').setAttribute('aria-pressed', 'true'); q('.b-play').textContent = '⏸ Пауза';
+      let i = Math.max(0, cur), t0 = performance.now(), hold = 0;
+      const tick = now => {
+        if (!playing) return;
+        const d = stepDuration(i), pd = 900 * ((steps[i].packets || []).length || 0);
+        const el = now - t0;
+        if (el < pd) seek(i, el / pd); else { seek(i, 1); if (el >= d) { if (i >= steps.length - 1) { stop(); return; } i++; t0 = now; seek(i, 0); } }
+        raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    }
+    function stop() { playing = false; cancelAnimationFrame(raf); q('.b-play').setAttribute('aria-pressed', 'false'); q('.b-play').textContent = '▶ Авто'; }
+    q('.b-prev').addEventListener('click', () => { stop(); seek(cur - 1, 1); });
+    q('.b-next').addEventListener('click', () => { stop(); const n = cur + 1; if (n >= steps.length) return; animateInto(n); });
+    q('.b-reset').addEventListener('click', () => { stop(); seek(0, 0); });
+    q('.b-play').addEventListener('click', () => playing ? stop() : play());
+    q('.scrub').addEventListener('input', e => { stop(); const v = +e.target.value; seek(Math.floor(v / 1000), (v % 1000) / 999); });
+    root.addEventListener('focusin', () => { activePlayer = api; });
+    root.addEventListener('click', () => { activePlayer = api; });
+    function animateInto(n) { // один шаг вперёд с анимацией пакетов, затем остановка
+      const pd = 900 * ((steps[n].packets || []).length || 0); if (!pd || reduce) { seek(n, 1); return; }
+      const t0 = performance.now(); playing = true;
+      const tick = now => { if (!playing) return; const el = now - t0; if (el >= pd) { seek(n, 1); playing = false; return; } seek(n, el / pd); raf = requestAnimationFrame(tick); };
+      raf = requestAnimationFrame(tick);
+    }
+    const api = { next: () => q('.b-next').click(), prev: () => q('.b-prev').click() };
+    seek(0, 0);
+    return root;
+  }
+  addEventListener('keydown', e => { if (!activePlayer || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (e.key === 'ArrowRight') { e.preventDefault(); activePlayer.next(); } if (e.key === 'ArrowLeft') { e.preventDefault(); activePlayer.prev(); } });
+
+  // ---------- recall: карта с пустыми узлами + вопросы ----------
+  function buildRecall(R, sid) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = mapHTML(true) + `<div class="ctrl"><button class="btn b-all" type="button">Показать все узлы</button><span class="hint">Сначала назови каждый узел и его роль сам, потом открой.</span></div>
+      <div class="qa">${(R.questions || []).map(x => `<details><summary>${esc(x.q)}</summary><p>${x.a}</p></details>`).join('')}</div>`;
+    const map = wrap.querySelector('.map'); wireMap(map);
+    const open = c => { c.classList.add('open'); const b = c.querySelector('b'), s = c.querySelector('small'); b.textContent = b.dataset.label; s.textContent = s.dataset.sub; };
+    map.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => open(c)));
+    wrap.querySelector('.b-all').addEventListener('click', () => map.querySelectorAll('.chip').forEach(open));
+    return wrap;
+  }
+
+  // ---------- навигация ----------
+  const secs = [...document.querySelectorAll('.section')], links = [...navlinks.querySelectorAll('a')];
+  function pos() { let c = secs[0] && secs[0].id; secs.forEach(s => { if (s.getBoundingClientRect().top <= 140) c = s.id; }); links.forEach(l => l.classList.toggle('active', l.dataset.id === c)); }
+  addEventListener('scroll', pos, { passive: true }); pos();
+})();
+</script>
+</body>
+</html>
