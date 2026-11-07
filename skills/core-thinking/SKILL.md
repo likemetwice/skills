@@ -1,280 +1,242 @@
 ---
 name: core-thinking
 description: >
-  A universal learning and reasoning skill that extracts the
-  conceptual core of any unfamiliar topic and builds an accurate
-  mental model through causal explanations, concrete examples,
-  multiple interpretations, and invariant extraction. On request
-  ("show me", "animate", "bring it to life", "make a page") it also
-  builds a self-contained HTML explainer page with step-by-step
-  mechanism animations for each step of the model.
+  Универсальный скилл обучения и рассуждения: выделяет концептуальное
+  ядро любой незнакомой темы и строит точную переносимую ментальную
+  модель через причинные объяснения, конкретные примеры, несколько
+  интерпретаций одного принципа и извлечение инварианта. Использовать,
+  когда пользователь просит понять, разобраться, объяснить суть,
+  «как это на самом деле работает», сравнить похожие понятия или
+  проверить своё понимание. По запросу «покажи», «с анимацией»,
+  «оживи», «сделай страницу» дополнительно собирает самодостаточную
+  HTML-страницу с пошаговыми анимациями механизма для каждого шага модели.
 ---
 
 # Core Thinking
 
-## Purpose
+## Назначение
 
-Help the user understand unfamiliar concepts, technologies,
-mathematical ideas, systems, and processes as quickly as possible.
+Помочь пользователю как можно быстрее понять незнакомые концепции, технологии, математические идеи, системы и процессы.
 
-The goal is NOT to summarize information or memorize definitions.
+Цель НЕ в том, чтобы пересказать информацию или заучить определения.
 
-The goal is to construct a compact, accurate, transferable
-mental model that allows the user to recognize and understand
-the same principle in unfamiliar contexts.
+Цель в том, чтобы построить компактную, точную и переносимую ментальную модель, которая позволит узнавать и понимать тот же принцип в незнакомых контекстах.
 
-Core principle:
+Главный принцип:
 
-**Understand the mechanism once. Recognize it everywhere.**
+**Понять механизм один раз. Узнавать его везде.**
 
-## Fundamental Rules
+## Базовые правила
 
-1. Start from the conceptual core, not historical background.
-2. Explain WHY something exists before explaining HOW it works.
-3. Prefer causal explanations over definitions.
-4. Use concrete examples before introducing abstractions.
-5. Explain the same principle through multiple interpretations.
-6. Identify what remains unchanged across those interpretations.
-7. Avoid unnecessary terminology and mathematical formalism.
-8. Introduce complexity only when necessary for correctness.
-9. Never sacrifice correctness for simplicity.
-10. Optimize for understanding, not explanation length alone.
+1. Начинать с концептуального ядра, а не с исторической справки.
+2. Объяснять, ЗАЧЕМ что-то существует, раньше, чем КАК оно работает.
+3. Предпочитать причинные объяснения определениям.
+4. Давать конкретные примеры до введения абстракций.
+5. Объяснять один и тот же принцип через несколько интерпретаций.
+6. Выявлять то, что остаётся неизменным во всех интерпретациях.
+7. Избегать лишней терминологии и математического формализма.
+8. Вводить сложность только там, где без неё теряется корректность.
+9. Никогда не жертвовать корректностью ради простоты.
+10. Оптимизировать под понимание, а не под длину объяснения.
 
-## Explanation Algorithm
+## Алгоритм объяснения
 
-### Step 1 — Problem
+### Шаг 1. Проблема
 
-Explain what problem the concept solves.
+Объяснить, какую проблему решает концепция.
 
-Answer:
-- What are we trying to achieve?
-- Why is this problem nontrivial?
-- What happens without this concept?
+Ответить:
+- Чего мы пытаемся достичь?
+- Почему эта проблема нетривиальна?
+- Что происходит без этой концепции?
 
-Keep this section extremely short.
+Этот раздел держать предельно коротким.
 
-### Step 2 — Core Idea
+### Шаг 2. Центральная идея
 
-Extract the central mechanism.
+Извлечь центральный механизм.
 
-Express it in one or two sentences.
+Выразить его в одном-двух предложениях.
 
-Use the simplest accurate formulation.
+Использовать простейшую точную формулировку.
 
-Prefer:
+Предпочитать:
 
-"Tensor Parallelism means several GPUs jointly calculate
-the same neural network layer."
+«Тензорный параллелизм означает, что несколько GPU совместно вычисляют один и тот же слой нейросети».
 
-Avoid:
+Избегать:
 
-"Tensor Parallelism is a distributed computational paradigm..."
+«Тензорный параллелизм — это парадигма распределённых вычислений…»
 
-### Step 3 — Concrete Example
+### Шаг 3. Конкретный пример
 
-Demonstrate the mechanism using a minimal example.
+Показать механизм на минимальном примере.
 
-Requirements:
-- Use specific objects, values, or operations.
-- Show what happens step by step.
-- Make the transformation observable.
-- Avoid abstract placeholders whenever possible.
+Требования:
+- Использовать конкретные объекты, значения или операции.
+- Показать, что происходит, шаг за шагом.
+- Сделать преобразование наблюдаемым.
+- По возможности избегать абстрактных заглушек.
 
-The user should be able to mentally simulate the example.
+Пользователь должен суметь мысленно прокрутить пример.
 
-### Step 4 — Multiple Interpretations
+### Шаг 4. Несколько интерпретаций
 
-Explain the SAME underlying principle through
-2–4 substantially different real-world contexts.
+Объяснить ТОТ ЖЕ принцип через 2–4 существенно разных реальных контекста.
 
-Do not merely rephrase the original explanation.
+Не просто переформулировать исходное объяснение.
 
-Each interpretation should provide a different
-mental entry point into the concept.
+Каждая интерпретация должна давать отдельную точку входа в концепцию.
 
-Example: Matrix multiplication
+Пример: умножение матриц
 
-Interpretation 1 — Recipe:
-A matrix defines how to combine ingredients
-into several outputs.
+Интерпретация 1. Рецепт:
+матрица задаёт, как соединить ингредиенты в несколько выходных блюд.
 
-Interpretation 2 — Geometry:
-A matrix transforms coordinates,
-moving, rotating, stretching, or compressing vectors.
+Интерпретация 2. Геометрия:
+матрица преобразует координаты, перемещая, поворачивая, растягивая или сжимая векторы.
 
-Interpretation 3 — Audio:
-A matrix mixes input audio channels
-into new output channels.
+Интерпретация 3. Звук:
+матрица смешивает входные аудиоканалы в новые выходные каналы.
 
-Interpretation 4 — Machine Learning:
-A matrix combines input features
-to produce new features.
+Интерпретация 4. Машинное обучение:
+матрица комбинирует входные признаки, чтобы получить новые признаки.
 
-All interpretations must preserve
-the same mathematical mechanism.
+Все интерпретации должны сохранять один и тот же математический механизм.
 
-### Step 5 — Invariant Extraction
+### Шаг 5. Извлечение инварианта
 
-Identify the essential principle shared
-by all previous examples.
+Выделить существенный принцип, общий для всех предыдущих примеров.
 
-Ask:
+Спросить:
 
-"What remains fundamentally the same,
-regardless of the application?"
+«Что остаётся принципиально одним и тем же независимо от применения?»
 
-Explain this invariant in one precise sentence.
+Сформулировать этот инвариант в одном точном предложении.
 
-For matrix-vector multiplication:
+Для умножения матрицы на вектор:
 
-"Each output component is a weighted sum
-of input components, with weights defined
-by the corresponding matrix row."
+«Каждая компонента выхода — это взвешенная сумма компонент входа с весами из соответствующей строки матрицы».
 
-IMPORTANT:
-The invariant must be technically accurate,
-not merely a vague philosophical generalization.
+ВАЖНО:
+инвариант должен быть технически точным, а не размытым философским обобщением.
 
-### Step 6 — Causal Mechanism
+### Шаг 6. Причинный механизм
 
-Explain WHY the mechanism produces its result.
+Объяснить, ПОЧЕМУ механизм даёт свой результат.
 
-Use the structure:
+Использовать структуру:
 
-INPUT → OPERATION → INTERMEDIATE STATE → OUTPUT
+ВХОД → ОПЕРАЦИЯ → ПРОМЕЖУТОЧНОЕ СОСТОЯНИЕ → ВЫХОД
 
-Then explain:
+Затем объяснить:
 
-WHY does this operation solve the original problem?
+ПОЧЕМУ именно эта операция решает исходную проблему?
 
-Avoid describing operations without explaining
-their causal relationship to the result.
+Не описывать операции без объяснения их причинной связи с результатом.
 
-### Step 7 — Boundary Testing (Optional)
+### Шаг 7. Проверка границ (по необходимости)
 
-When useful, introduce:
+Когда полезно, ввести:
 
-- A similar concept that works differently.
-- A case where the original mechanism does not apply.
-- A modification of one important parameter.
+- похожую концепцию, которая работает иначе;
+- случай, где исходный механизм не применим;
+- изменение одного важного параметра.
 
-Explain what changes and why.
+Объяснить, что меняется и почему.
 
-Use this step only when it meaningfully
-improves understanding.
+Использовать этот шаг только тогда, когда он заметно улучшает понимание.
 
-### Step 8 — Knowledge Connection
+### Шаг 8. Связь со знакомым
 
-Connect the concept to something
-the user may already understand.
+Связать концепцию с тем, что пользователь, вероятно, уже понимает.
 
-Prefer structural similarities
-over superficial analogies.
+Предпочитать структурные сходства поверхностным аналогиям.
 
-Explicitly distinguish:
-- What is similar?
-- What is different?
+Явно разделить:
+- что похоже?
+- что отличается?
 
-Do not assume the user knows
-an unfamiliar concept.
+Не предполагать, что пользователь знает незнакомую концепцию.
 
-### Step 9 — Semantic Compression
+### Шаг 9. Смысловая компрессия
 
-Compress the entire explanation into:
+Сжать всё объяснение до:
 
-1. One sentence describing the core.
-2. One concrete example.
-3. One transferable mental model.
+1. одного предложения, описывающего ядро;
+2. одного конкретного примера;
+3. одной переносимой ментальной модели.
 
-The final result should be understandable
-without rereading the entire explanation.
+Итог должен быть понятен без перечитывания всего объяснения.
 
-### Step 10 — Active Understanding
+### Шаг 10. Активное понимание
 
-Invite the user to explain the concept
-in their own words.
+Предложить пользователю объяснить концепцию своими словами.
 
-Evaluate their explanation:
+Оценить его объяснение:
 
-- What is correct?
-- What is inaccurate?
-- What important causal relationship is missing?
+- что верно?
+- что неточно?
+- какая важная причинная связь пропущена?
 
-Correct only meaningful misunderstandings.
+Исправлять только значимые заблуждения.
 
-Then, if appropriate, introduce a new example
-to test whether understanding transfers.
+Затем, если уместно, дать новый пример, чтобы проверить, переносится ли понимание.
 
-## Explainer Page (on request)
+## Explainer-страница (по запросу)
 
-When the user asks to "show", "animate", "bring to life" or
-"make a page", or when the mechanism involves entities exchanging
-messages or changing state, build one self-contained HTML file
-after the textual explanation. Follow `references/explainer-page.md`.
+Если пользователь просит «покажи», «с анимацией», «оживи», «сделай страницу», или механизм описывает сущности, которые обмениваются сообщениями или меняют состояние, после текстового объяснения собрать один самодостаточный HTML-файл. Следовать `references/explainer-page.md`.
 
-Mapping of steps to the page:
+Соответствие шагов блокам страницы:
 
-- Step 1 Problem, Step 2 Core Idea → text blocks and the `core` field.
-- Step 3 Concrete Example + Step 6 Causal Mechanism → one player:
-  nodes are the entities, packets are what moves, `states` are
-  what changes. One claim per step.
-- Step 4 Multiple Interpretations + Step 5 Invariant → one player
-  with the same steps and relabeled nodes, or a table
-  "context | input | operation | output | what stays the same".
-- Step 7 Boundary Testing → a short player: change one parameter,
-  show what breaks.
-- Step 9 Semantic Compression → the `core` field and the hero block.
-- Step 10 Active Understanding → the `recall` block: the same map
-  with hidden node labels plus questions with hidden answers.
+- Шаг 1 «Проблема», Шаг 2 «Центральная идея» → текстовые блоки и поле `core`.
+- Шаг 3 «Конкретный пример» + Шаг 6 «Причинный механизм» → один плеер: узлы равны сущностям, пакеты равны тому, что движется, `states` равны тому, что меняется. Одно утверждение на шаг.
+- Шаг 4 «Интерпретации» + Шаг 5 «Инвариант» → один плеер с теми же шагами и перелабеленными узлами, или таблица «контекст | вход | операция | выход | что неизменно».
+- Шаг 7 «Проверка границ» → короткий плеер: изменить один параметр, показать, что ломается.
+- Шаг 9 «Смысловая компрессия» → поле `core` и шапка страницы.
+- Шаг 10 «Активное понимание» → блок `recall`: та же карта со скрытыми подписями узлов плюс вопросы со скрытыми ответами.
 
-Before writing the file, print the scene table in chat
-(step | active | moves | changes | claim | source).
-Copy `assets/explainer-template.html`, fill only the `EXPLAINER`
-object, keep the engine untouched. Mark unsourced steps with
-`assumption: true`. Animate only what shows causality;
-static topics stay text.
+До записи файла вывести в чат таблицу сцен (шаг | кто активен | что движется | что изменилось | утверждение | источник). Скопировать `assets/explainer-template.html`, заполнить только объект `EXPLAINER`, движок не трогать. Шаги без источника помечать `assumption: true`. Анимировать только то, что показывает причинность; статичные темы остаются текстом.
 
-## Adaptive Depth
+## Адаптивная глубина
 
-Default to a short explanation.
+По умолчанию давать короткое объяснение.
 
-Do not automatically expand every step.
+Не разворачивать автоматически каждый шаг.
 
-Use progressive disclosure:
+Использовать постепенное раскрытие:
 
-Level 1 — 30-second explanation:
-Problem → Core → Example → Invariant.
+Уровень 1. Объяснение за 30 секунд:
+Проблема → Ядро → Пример → Инвариант.
 
-Level 2 — Conceptual understanding:
-Multiple interpretations → Mechanism → Causality.
+Уровень 2. Концептуальное понимание:
+Несколько интерпретаций → Механизм → Причинность.
 
-Level 3 — Deep understanding:
-Formal details → Edge cases → Limitations.
+Уровень 3. Глубокое понимание:
+Формальные детали → Крайние случаи → Ограничения.
 
-Only increase depth when requested
-or necessary to avoid misconceptions.
+Увеличивать глубину только по запросу или когда это необходимо, чтобы избежать заблуждений.
 
-## Communication Style
+## Стиль общения
 
-- Clear, concise, technically accurate.
-- No unnecessary introductions.
-- No generic motivational language.
-- No long historical background.
-- No analogies that distort the mechanism.
-- Prefer physical and observable operations.
-- Explain unfamiliar terminology immediately.
-- Use concrete numbers when helpful.
-- Prefer one strong insight over ten weak observations.
+- Ясно, кратко, технически точно.
+- Без лишних вступлений.
+- Без общих мотивационных фраз.
+- Без длинной исторической справки.
+- Без аналогий, искажающих механизм.
+- Предпочитать физические и наблюдаемые операции.
+- Объяснять незнакомую терминологию сразу.
+- Использовать конкретные числа, когда они помогают.
+- Предпочитать один сильный инсайт десяти слабым наблюдениям.
 
-## Success Criteria
+## Критерии успеха
 
-The explanation succeeds when the user can:
+Объяснение удалось, если пользователь может:
 
-1. Explain the concept in their own words.
-2. Describe the problem it solves.
-3. Mentally simulate its mechanism.
-4. Recognize the same principle in another context.
-5. Distinguish it from superficially similar concepts.
+1. объяснить концепцию своими словами;
+2. описать проблему, которую она решает;
+3. мысленно прокрутить её механизм;
+4. узнать тот же принцип в другом контексте;
+5. отличить её от поверхностно похожих концепций.
 
-Understanding is demonstrated by transfer,
-not by repeating a definition.
+Понимание подтверждается переносом, а не повторением определения.

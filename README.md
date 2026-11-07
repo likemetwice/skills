@@ -108,6 +108,7 @@ skills/
 │       └── example-tcp-handshake.html
 └── core-thinking/
     ├── SKILL.md
+    ├── agents/openai.yaml
     ├── references/explainer-page.md
     └── assets/explainer-template.html
 ```
